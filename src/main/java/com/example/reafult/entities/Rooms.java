@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -37,21 +36,21 @@ public class Rooms {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
 	private Set<Sales> sales;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
-	private FileDB fileDB;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
+	private Set<FileDB> filesDB;
 	
 	public Rooms() {
 		super();
 	}
 
-	public Rooms(Integer id, String roomName, String type, Integer price, Set<Sales> sales, FileDB fileDB) {
+	public Rooms(Integer id, String roomName, String type, Integer price, Set<Sales> sales, Set<FileDB> filesDB) {
 		super();
 		this.id = id;
 		this.roomName = roomName;
 		this.type = type;
 		this.price = price;
 		this.sales = sales;
-		this.fileDB = fileDB;
+		this.filesDB = filesDB;
 	}
 
 	public Rooms(String roomName, String type, Integer price) {
@@ -101,18 +100,18 @@ public class Rooms {
 		this.sales = sales;
 	}
 
-	public FileDB getFileDB() {
-		return fileDB;
+	public Set<FileDB> getFilesDB() {
+		return filesDB;
 	}
 
-	public void setFileDB(FileDB fileDB) {
-		this.fileDB = fileDB;
+	public void setFilesDB(Set<FileDB> filesDB) {
+		this.filesDB = filesDB;
 	}
 
 	@Override
 	public String toString() {
 		return "Rooms [id=" + id + ", roomName=" + roomName + ", type=" + type + ", price=" + price + ", sales=" + sales
-				+ ", fileDB=" + fileDB + "]";
+				+ ", fileDB=" + filesDB + "]";
 	}
 
 }

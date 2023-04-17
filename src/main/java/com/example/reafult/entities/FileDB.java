@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -38,7 +37,7 @@ public class FileDB {
 	@JoinColumn(name = "PageId", referencedColumnName = "id")
 	private Pages page;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "RoomId", referencedColumnName = "id")
 	private Rooms room;
 

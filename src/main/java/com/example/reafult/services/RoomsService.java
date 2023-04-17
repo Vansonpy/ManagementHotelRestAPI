@@ -1,8 +1,6 @@
 package com.example.reafult.services;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,11 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.reafult.dto.FileDBDTO;
 import com.example.reafult.dto.RoomsDTO;
 import com.example.reafult.dto.SalesDTO;
 import com.example.reafult.dto.ServicesDTO;
@@ -78,13 +73,20 @@ public class RoomsService {
 			}
 		}
 
-		FileDB fileDB = room.getFileDB();
-		if (fileDB != null) {
-			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-					.path(fileDB.getId().toString()).toUriString();
-			roomsDTO.setUrlImage(fileDownloadUri);
+		Set<FileDB> listFileDB = room.getFilesDB();
+		if (listFileDB != null) {
+			for (FileDB fileDB : listFileDB) {
+				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+						.path(fileDB.getId().toString()).toUriString();
+				if(roomsDTO.getUrlImage()==null) {
+					List<String> listUrl = new ArrayList<String>();
+					listUrl.add(fileDownloadUri);
+					roomsDTO.setUrlImage(listUrl);
+				}else {
+					roomsDTO.getUrlImage().add(fileDownloadUri);
+				}
+			}
 		}
-
 		return roomsDTO;
 	}
 
@@ -127,11 +129,19 @@ public class RoomsService {
 				}
 			}
 
-			FileDB fileDB = rooms.getFileDB();
-			if (fileDB != null) {
-				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-						.path(fileDB.getId().toString()).toUriString();
-				roomsDTO.setUrlImage(fileDownloadUri);
+			Set<FileDB> listFileDB = rooms.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(roomsDTO.getUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						roomsDTO.setUrlImage(listUrl);
+					}else {
+						roomsDTO.getUrlImage().add(fileDownloadUri);
+					}
+				}
 			}
 
 			listRoomDTO.add(roomsDTO);
@@ -139,11 +149,16 @@ public class RoomsService {
 		return listRoomDTO;
 	}
 
-	public RoomsDTO save(Rooms room, String fileID) throws IOException {
-		FileDB fileUpload = fileDBRepository.findById(fileID).get();
+	public RoomsDTO save(Rooms room, List<String> listFileID) throws IOException {
 		Rooms roomSave = roomRepository.save(room);
-		room.setFileDB(fileUpload);
-		fileUpload.setRoom(roomSave);
+		Set<FileDB> setFilesDB = new HashSet<FileDB>();
+		for (String fileID : listFileID) {
+			FileDB fileUpload = fileDBRepository.findById(fileID).get();
+			fileUpload.setRoom(roomSave);
+			setFilesDB.add(fileUpload);
+		}		
+		roomSave.setFilesDB(setFilesDB);
+		
 		RoomsDTO roomsDTO = mapper.map(roomSave, RoomsDTO.class);
 		Set<Sales> listSale = room.getSales();
 		if (listSale != null) {
@@ -173,11 +188,19 @@ public class RoomsService {
 			}
 		}
 
-		FileDB fileDB = room.getFileDB();
-		if (fileDB != null) {
-			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-					.path(fileDB.getId().toString()).toUriString();
-			roomsDTO.setUrlImage(fileDownloadUri);
+		Set<FileDB> listFileDB = room.getFilesDB();
+		if (listFileDB != null) {
+			for (FileDB fileDB : listFileDB) {
+				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+						.path(fileDB.getId().toString()).toUriString();
+				if(roomsDTO.getUrlImage()==null) {
+					List<String> listUrl = new ArrayList<String>();
+					listUrl.add(fileDownloadUri);
+					roomsDTO.setUrlImage(listUrl);
+				}else {
+					roomsDTO.getUrlImage().add(fileDownloadUri);
+				}
+			}
 		}
 		return roomsDTO;
 	}
@@ -277,11 +300,19 @@ public class RoomsService {
 			}
 		}
 
-		FileDB fileDB = roomBook.getFileDB();
-		if (fileDB != null) {
-			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-					.path(fileDB.getId().toString()).toUriString();
-			roomsDTO.setUrlImage(fileDownloadUri);
+		Set<FileDB> listFileDB = roomBook.getFilesDB();
+		if (listFileDB != null) {
+			for (FileDB fileDB : listFileDB) {
+				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+						.path(fileDB.getId().toString()).toUriString();
+				if(roomsDTO.getUrlImage()==null) {
+					List<String> listUrl = new ArrayList<String>();
+					listUrl.add(fileDownloadUri);
+					roomsDTO.setUrlImage(listUrl);
+				}else {
+					roomsDTO.getUrlImage().add(fileDownloadUri);
+				}
+			}
 		}
 		return roomsDTO;
 
@@ -337,11 +368,19 @@ public class RoomsService {
 				}
 			}
 
-			FileDB fileDB = rooms.getFileDB();
-			if (fileDB != null) {
-				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-						.path(fileDB.getId().toString()).toUriString();
-				roomsDTO.setUrlImage(fileDownloadUri);
+			Set<FileDB> listFileDB = rooms.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(roomsDTO.getUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						roomsDTO.setUrlImage(listUrl);
+					}else {
+						roomsDTO.getUrlImage().add(fileDownloadUri);
+					}
+				}
 			}
 			listRoomDTO.add(roomsDTO);
 		}

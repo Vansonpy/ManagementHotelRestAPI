@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.reafult.JwtTokenProvider;
@@ -58,11 +57,15 @@ public class UserController {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				String token = tokenProvider.createToken((CustomUserDetails) authentication.getPrincipal());
 		        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+		        Cookie cookie = new Cookie("jwtToken", token);
+				 cookie.setMaxAge(60 * 60 * 24); // Thời gian sống của cookie là 1 ngày
+				 cookie.setPath("/"); // Chỉ định cookie có thể được truy cập bởi tất cả các URL trong ứng dụng 
+				response.addCookie(cookie);
 		        UsersDTO usersDTO = new UsersDTO();
 		        usersDTO.setUserName(userDetails.getUsername());
 		        for (GrantedAuthority authorities : userDetails.getAuthorities()) {
 		        	usersDTO.setRole(authorities.toString());
-				}		        
+				}	
 				return new ResponseEntity<UsersDTO>(usersDTO, HttpStatus.OK);
 			}
 			

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.reafult.dto.PagesDTO;
 import com.example.reafult.entities.Pages;
@@ -101,17 +100,16 @@ public class PagesController {
 
 	@PostMapping(value = "/addPage")
 
-	public ResponseEntity<PagesDTO> addPage(@RequestParam String content, @RequestParam String subContent,
-			@RequestParam String title, @RequestParam String pageName, @RequestParam String location,
-			@RequestParam("file") MultipartFile file) throws Exception {
+	public ResponseEntity<PagesDTO> addPage(@RequestBody PagesDTO pageRequest) throws Exception {
 		try {
 			Pages pages = new Pages();
-			pages.setPageName(pageName);
-			pages.setSubContent(subContent);
-			pages.setTitle(title);
-			pages.setLocation(location);			
-			pages.setListContent(content);
-			PagesDTO currentPage = pagesService.save(pages, file);
+			pages.setPageName(pageRequest.getPageName());
+			pages.setSubContent(pageRequest.getSubContent());
+			pages.setTitle(pageRequest.getTitle());
+			pages.setLocation(pageRequest.getLocation());			
+			pages.setListContent(pageRequest.getListContent());
+			List<String> listFileID = pageRequest.getListUrlImage();
+			PagesDTO currentPage = pagesService.save(pages, listFileID);
 			return new ResponseEntity<PagesDTO>(currentPage, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,22 +118,20 @@ public class PagesController {
 	}
 
 	@PutMapping(value = "/updatePage/{id}")
-	public ResponseEntity<PagesDTO> doUpdatePage(@PathVariable("id") Integer id,@RequestParam String content, @RequestParam String subContent,
-			@RequestParam String title, @RequestParam String pageName, @RequestParam String location,@RequestParam Integer pageId,
-			@RequestParam("file") MultipartFile file) throws Exception {
+	public ResponseEntity<PagesDTO> doUpdatePage(@PathVariable("id") Integer id,@RequestBody PagesDTO pageRequest) throws Exception {
 		try {
 			PagesDTO currentPage = pagesService.findById(id);
-			if (currentPage == null || pageId != id) {
+			if (currentPage == null || pageRequest.getId() != id) {
 				return new ResponseEntity<PagesDTO>(HttpStatus.NO_CONTENT);
 			}
 			Pages pages = new Pages();
-			pages.setId(pageId);
-			pages.setPageName(pageName);
-			pages.setSubContent(subContent);
-			pages.setTitle(title);
-			pages.setLocation(location);		
-			pages.setListContent(content);		
-			currentPage = pagesService.save(pages, file);
+			pages.setPageName(pageRequest.getPageName());
+			pages.setSubContent(pageRequest.getSubContent());
+			pages.setTitle(pageRequest.getTitle());
+			pages.setLocation(pageRequest.getLocation());			
+			pages.setListContent(pageRequest.getListContent());
+			List<String> listFileID = pageRequest.getListUrlImage();
+			currentPage = pagesService.save(pages, listFileID);
 			return new ResponseEntity<PagesDTO>(currentPage, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.example.reafult.controller;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.reafult.dto.RoomsDTO;
 import com.example.reafult.dto.SalesDTO;
@@ -80,13 +78,13 @@ public class RoomsController {
 		        System.out.println("Room with id " + id + " not found");
 		        return new ResponseEntity<RoomsDTO>(HttpStatus.NO_CONTENT);
 		    }  
-	    	String fileID = roomRequest.getUrlImage();
+	    	List<String> listFileID = roomRequest.getUrlImage();
 	    	Rooms room = new Rooms();
 	    	room.setId(currentRoom.getId());
 	    	room.setPrice(roomRequest.getPrice());
 	    	room.setRoomName(roomRequest.getRoomName());
 	    	room.setType(roomRequest.getType());
-		    currentRoom = roomsService.save(room,fileID);
+		    currentRoom = roomsService.save(room,listFileID);
 		    return new ResponseEntity<RoomsDTO>(currentRoom, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,8 +99,8 @@ public class RoomsController {
 	    	room.setPrice(roomRequest.getPrice());
 	    	room.setRoomName(roomRequest.getRoomName());
 	    	room.setType(roomRequest.getType());
-	    	String fileID = roomRequest.getUrlImage();
-	    	RoomsDTO currentRoom = roomsService.save(room,fileID);
+	    	List<String> listFileID = roomRequest.getUrlImage();
+	    	RoomsDTO currentRoom = roomsService.save(room,listFileID);
 		    return new ResponseEntity<RoomsDTO>(currentRoom, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

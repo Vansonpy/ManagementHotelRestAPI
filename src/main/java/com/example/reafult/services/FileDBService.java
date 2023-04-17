@@ -1,8 +1,6 @@
 package com.example.reafult.services;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +27,17 @@ public class FileDBService {
 	@Autowired
 	private FileDBRepository fileDBRepository;
 
-	public String saveFile(MultipartFile file) throws IOException {
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		FileDB image = new FileDB(fileName, file.getContentType(), file.getBytes());
-		FileDB fileUpload = fileDBRepository.save(image);
-		String fileId = fileUpload.getId();
-		return fileId ;
+	public List<String> saveFile(List<MultipartFile> files) throws IOException {
+		List<String> listFileID = new ArrayList<String>();
+		for (MultipartFile file : files) {
+			 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+				FileDB image = new FileDB(fileName, file.getContentType(), file.getBytes());
+				FileDB fileUpload = fileDBRepository.save(image);
+				String fileId = fileUpload.getId();
+				listFileID.add(fileId);
+		 }
+		
+		return listFileID ;
 	}
 
 	public List<FileDBDTO> getAllFiles() {

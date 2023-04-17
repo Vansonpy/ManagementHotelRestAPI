@@ -2,7 +2,6 @@ package com.example.reafult.dto;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class RoomsDTO {
 	private Integer id;
@@ -11,7 +10,7 @@ public class RoomsDTO {
 	private Integer price;
 	private List<SalesDTO> salesDTO;
 	private String userName;
-	private String urlImage;
+	private List<String> urlImage;
 	
 	public Integer getId() {
 		return id;
@@ -61,11 +60,11 @@ public class RoomsDTO {
 		this.userName = userName;
 	}
 
-	public String getUrlImage() {
+	public List<String> getUrlImage() {
 		return urlImage;
 	}
 
-	public void setUrlImage(String urlImage) {
+	public void setUrlImage(List<String> urlImage) {
 		this.urlImage = urlImage;
 	}
 

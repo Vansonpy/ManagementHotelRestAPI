@@ -2,9 +2,6 @@ package com.example.reafult.dto;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-
 public class PagesDTO {
 
 	private Integer id;
@@ -14,15 +11,7 @@ public class PagesDTO {
 	private String listContent;
 	private String subContent;
 	private List<String> listUrlImage;
-	private MultipartFile multipartFile;
 	
-	
-	public MultipartFile getMultipartFile() {
-		return multipartFile;
-	}
-	public void setMultipartFile(MultipartFile multipartFile) {
-		this.multipartFile = multipartFile;
-	}
 	public String getLocation() {
 		return location;
 	}

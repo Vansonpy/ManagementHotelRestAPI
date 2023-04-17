@@ -30,13 +30,13 @@ public class FileDBController {
 	@Autowired
 	private FileDBRepository fileDBRepository;
 	@PostMapping(value="/upload",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file) {        
+    public ResponseEntity<List<String>> uploadFile(@RequestPart("files") List<MultipartFile> files) {        
         try {
-        	String fileID = fileDBService.saveFile(file);
-            return new ResponseEntity<String>(fileID, HttpStatus.OK);
+        	List<String> listFileID = fileDBService.saveFile(files);
+            return new ResponseEntity<List<String>>(listFileID, HttpStatus.OK);
         } catch (Exception e) {
         	e.printStackTrace();
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
         }
     }
 

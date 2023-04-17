@@ -2,7 +2,6 @@ package com.example.reafult.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,11 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.reafult.dto.FileDBDTO;
 import com.example.reafult.dto.PagesDTO;
 import com.example.reafult.entities.FileDB;
 import com.example.reafult.entities.Pages;
@@ -38,15 +34,19 @@ public class PagesService {
 		List<PagesDTO> listPageDTO = new ArrayList<PagesDTO>();
 		for (Pages page : listPages) {
 			PagesDTO pagesDTO = mapper.map(page, PagesDTO.class);			
-			Set<FileDB> listFile = page.getFileDB();
-			if (listFile != null) {
-				List<String> listUrlImage = new ArrayList<String>();
-				for (FileDB fileDB : listFile) {
-					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-							.path("/api/img/files/").path(fileDB.getId().toString()).toUriString();
-					listUrlImage.add(fileDownloadUri);
+			Set<FileDB> listFileDB =page.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(pagesDTO.getListUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						pagesDTO.setListUrlImage(listUrl);
+					}else {
+						pagesDTO.getListUrlImage().add(fileDownloadUri);
+					}
 				}
-				pagesDTO.setListUrlImage(listUrlImage);
 			}
 			listPageDTO.add(pagesDTO);
 		}
@@ -58,15 +58,19 @@ public class PagesService {
 		List<PagesDTO> listPageDTO = new ArrayList<PagesDTO>();
 		for (Pages page : listPages) {
 			PagesDTO pagesDTO = mapper.map(page, PagesDTO.class);	
-			Set<FileDB> listFile = page.getFileDB();
-			if (listFile != null) {
-				List<String> listUrlImage = new ArrayList<String>();
-				for (FileDB fileDB : listFile) {
-					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-							.path("/api/img/files/").path(fileDB.getId().toString()).toUriString();
-					listUrlImage.add(fileDownloadUri);
+			Set<FileDB> listFileDB =page.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(pagesDTO.getListUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						pagesDTO.setListUrlImage(listUrl);
+					}else {
+						pagesDTO.getListUrlImage().add(fileDownloadUri);
+					}
 				}
-				pagesDTO.setListUrlImage(listUrlImage);
 			}
 			listPageDTO.add(pagesDTO);
 		}
@@ -78,15 +82,19 @@ public class PagesService {
 		List<PagesDTO> listPageDTO = new ArrayList<PagesDTO>();
 		for (Pages page : listPages) {
 			PagesDTO pagesDTO = mapper.map(page, PagesDTO.class);	
-			Set<FileDB> listFile = page.getFileDB();
-			if (listFile != null) {
-				List<String> listUrlImage = new ArrayList<String>();
-				for (FileDB fileDB : listFile) {
-					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-							.path("/api/img/files/").path(fileDB.getId().toString()).toUriString();
-					listUrlImage.add(fileDownloadUri);
+			Set<FileDB> listFileDB =page.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(pagesDTO.getListUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						pagesDTO.setListUrlImage(listUrl);
+					}else {
+						pagesDTO.getListUrlImage().add(fileDownloadUri);
+					}
 				}
-				pagesDTO.setListUrlImage(listUrlImage);
 			}
 			listPageDTO.add(pagesDTO);
 		}
@@ -96,15 +104,19 @@ public class PagesService {
 	public PagesDTO findById(Integer id) {
 		Pages page = pagesRepository.findById(id).get();
 		PagesDTO pagesDTO = mapper.map(page, PagesDTO.class);
-		Set<FileDB> listFile = page.getFileDB();
-		if (listFile != null) {
-			List<String> listUrlImage = new ArrayList<String>();
-			for (FileDB fileDB : listFile) {
+		Set<FileDB> listFileDB =page.getFilesDB();
+		if (listFileDB != null) {
+			for (FileDB fileDB : listFileDB) {
 				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
 						.path(fileDB.getId().toString()).toUriString();
-				listUrlImage.add(fileDownloadUri);
+				if(pagesDTO.getListUrlImage()==null) {
+					List<String> listUrl = new ArrayList<String>();
+					listUrl.add(fileDownloadUri);
+					pagesDTO.setListUrlImage(listUrl);
+				}else {
+					pagesDTO.getListUrlImage().add(fileDownloadUri);
+				}
 			}
-			pagesDTO.setListUrlImage(listUrlImage);
 		}
 		return pagesDTO;
 	}
@@ -114,15 +126,19 @@ public class PagesService {
 		List<PagesDTO> listPageDTO = new ArrayList<PagesDTO>();
 		for (Pages page : listPages) {
 			PagesDTO pagesDTO = mapper.map(page, PagesDTO.class);	
-			Set<FileDB> listFile = page.getFileDB();
-			if (listFile != null) {
-				List<String> listUrlImage = new ArrayList<String>();
-				for (FileDB fileDB : listFile) {
-					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-							.path("/api/img/files/").path(fileDB.getId().toString()).toUriString();
-					listUrlImage.add(fileDownloadUri);
+			Set<FileDB> listFileDB =page.getFilesDB();
+			if (listFileDB != null) {
+				for (FileDB fileDB : listFileDB) {
+					String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+							.path(fileDB.getId().toString()).toUriString();
+					if(pagesDTO.getListUrlImage()==null) {
+						List<String> listUrl = new ArrayList<String>();
+						listUrl.add(fileDownloadUri);
+						pagesDTO.setListUrlImage(listUrl);
+					}else {
+						pagesDTO.getListUrlImage().add(fileDownloadUri);
+					}
 				}
-				pagesDTO.setListUrlImage(listUrlImage);
 			}
 			listPageDTO.add(pagesDTO);
 		}
@@ -134,21 +150,32 @@ public class PagesService {
 		return countAll;
 	}
 
-	public PagesDTO save(Pages page, MultipartFile file) throws IOException {
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		FileDB image = new FileDB(fileName, file.getContentType(), file.getBytes());
-		FileDB fileUpload = fileDBRepository.save(image);
-		Set<FileDB> setFileDB = new HashSet<FileDB>();
-		setFileDB.add(fileUpload);
+	public PagesDTO save(Pages page, List<String> listFileID) throws IOException {
+		
 		Pages pageSave = pagesRepository.save(page);
-		pageSave.setFileDB(setFileDB);
-		fileUpload.setPage(pageSave);
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
-				.path(fileUpload.getId().toString()).toUriString();
+		Set<FileDB> setFilesDB = new HashSet<FileDB>();
+		for (String fileID : listFileID) {
+			FileDB fileUpload = fileDBRepository.findById(fileID).get();
+			fileUpload.setPage(pageSave);
+			setFilesDB.add(fileUpload);
+		}		
+		pageSave.setFilesDB(setFilesDB);
+	
 		PagesDTO pageDTO = mapper.map(pageSave, PagesDTO.class);
-		List<String> listUrlImage = new ArrayList<String>();
-		listUrlImage.add(fileDownloadUri);
-		pageDTO.setListUrlImage(listUrlImage);
+		Set<FileDB> listFileDB =pageSave.getFilesDB();
+		if (listFileDB != null) {
+			for (FileDB fileDB : listFileDB) {
+				String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/img/files/")
+						.path(fileDB.getId().toString()).toUriString();
+				if(pageDTO.getListUrlImage()==null) {
+					List<String> listUrl = new ArrayList<String>();
+					listUrl.add(fileDownloadUri);
+					pageDTO.setListUrlImage(listUrl);
+				}else {
+					pageDTO.getListUrlImage().add(fileDownloadUri);
+				}
+			}
+		}
 		return pageDTO;
 	}
 

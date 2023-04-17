@@ -1,6 +1,5 @@
 package com.example.reafult.entities;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,7 +38,7 @@ public class Pages {
 	private String location;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "page", cascade = CascadeType.ALL)
-	private Set<FileDB> fileDB;
+	private Set<FileDB> filesDB;
 
 	public Pages() {
 		super();
@@ -54,7 +53,7 @@ public class Pages {
 	}
 
 	public Pages(Integer id, String pageName, String title, String listContent, String subContent, String location,
-			Set<FileDB> fileDB) {
+			Set<FileDB> filesDB) {
 		super();
 		this.id = id;
 		this.pageName = pageName;
@@ -62,17 +61,17 @@ public class Pages {
 		this.listContent = listContent;
 		this.subContent = subContent;
 		this.location = location;
-		this.fileDB = fileDB;
+		this.filesDB = filesDB;
 	}
 
-	public Pages(Integer id, String pageName, String title, String listContent, String subContent, Set<FileDB> fileDB) {
+	public Pages(Integer id, String pageName, String title, String listContent, String subContent, Set<FileDB> filesDB) {
 		super();
 		this.id = id;
 		this.pageName = pageName;
 		this.title = title;
 		this.listContent = listContent;
 		this.subContent = subContent;
-		this.fileDB = fileDB;
+		this.filesDB = filesDB;
 	}
 
 	public Pages(String pageName, String title, String listContent, String subContent) {
@@ -123,18 +122,18 @@ public class Pages {
 		this.subContent = subContent;
 	}
 
-	public Set<FileDB> getFileDB() {
-		return fileDB;
+	public Set<FileDB> getFilesDB() {
+		return filesDB;
 	}
 
-	public void setFileDB(Set<FileDB> fileDB) {
-		this.fileDB = fileDB;
+	public void setFilesDB(Set<FileDB> filesDB) {
+		this.filesDB = filesDB;
 	}
 
 	@Override
 	public String toString() {
 		return "Pages [id=" + id + ", pageName=" + pageName + ", title=" + title + ", listContent=" + listContent
-				+ ", subContent=" + subContent + ", fileDB=" + fileDB + "]";
+				+ ", subContent=" + subContent + ", filesDB=" + filesDB + "]";
 	}
 
 }
